@@ -1,0 +1,117 @@
+1️⃣ activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="Registration Form"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etName"
+            android:hint="Enter Name"
+            android:inputType="textPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:hint="Enter Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:hint="Enter Phone Number"
+            android:inputType="phone"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:hint="Enter Password"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/etConfirmPassword"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:text="Submit"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</ScrollView>
+-------------------------------------------------------------
+2️⃣ MainActivity.kt
+package com.example.registrationform
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.*
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var name: EditText
+    lateinit var email: EditText
+    lateinit var phone: EditText
+    lateinit var password: EditText
+    lateinit var confirmPassword: EditText
+    lateinit var submit: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        name = findViewById(R.id.etName)
+        email = findViewById(R.id.etEmail)
+        phone = findViewById(R.id.etPhone)
+        password = findViewById(R.id.etPassword)
+        confirmPassword = findViewById(R.id.etConfirmPassword)
+        submit = findViewById(R.id.btnSubmit)
+
+        submit.setOnClickListener {
+
+            val n = name.text.toString()
+            val e = email.text.toString()
+            val p = phone.text.toString()
+            val pass = password.text.toString()
+            val cpass = confirmPassword.text.toString()
+
+            if (n.isEmpty() || e.isEmpty() || p.isEmpty() || pass.isEmpty() || cpass.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+            }
+            else if (pass != cpass) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(this, "Registration Successful", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+}

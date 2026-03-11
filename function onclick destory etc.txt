@@ -1,0 +1,106 @@
+1.	Explain the Android Activity life cycle in detail. Implement a simple app that logs the lifecycle methods (onCreate(), onStart(), onResume(), onPause(), onStop(), onDestroy()).
+
+package com.example.prac1
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.widget.TextView
+import android.widget.Button
+import android.content.Intent
+
+class MainActivity : AppCompatActivity() {
+
+    val TAG = "LifecycleDemo"
+    lateinit var status: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        status = findViewById(R.id.txtStatus)
+        val btn = findViewById<Button>(R.id.btnSecond)
+
+        status.text = "onCreate() executed"
+        Log.d(TAG, "onCreate() called")
+
+        btn.setOnClickListener {
+            startActivity(Intent(this, SecondActivity::class.java))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        status.text = "onStart() executed"
+        Log.d(TAG, "onStart() called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        status.text = "onResume() executed"
+        Log.d(TAG, "onResume() called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause() called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop() called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy() called")
+    }
+}
+---------------------------------------------------------------
+activitymain.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/txtStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity Lifecycle Demo"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:padding="10dp"/>
+
+    <Button
+        android:id="@+id/btnSecond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open Second Activity"/>
+
+</LinearLayout>
+
+----------------------------------------------------------------------------
+secondactivity.kt
+
+package com.example.prac1
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+
+class SecondActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val tv = android.widget.TextView(this)
+        tv.text = "Second Activity Opened"
+        tv.textSize = 22f
+
+        setContentView(tv)
+    }
+}

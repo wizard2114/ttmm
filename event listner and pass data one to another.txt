@@ -1,0 +1,241 @@
+Create an android application to demonstrate the following event listeners on the following widgets
+Button: on click listener, long click listener
+Image: Touch listener with these motion events =>Action up, action down and action pointer down
+Edit Text : key listener on Enter key
+The Appropriate message should be displayed in text view.
+
+
+package com.example.prac1
+
+import android.os.Bundle
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var button: Button
+    lateinit var imageView: ImageView
+    lateinit var editText: EditText
+    lateinit var textView: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        button = findViewById(R.id.button)
+        imageView = findViewById(R.id.imageView)
+        editText = findViewById(R.id.editText)
+        textView = findViewById(R.id.textView)
+
+        // Button Click Listener
+        button.setOnClickListener {
+            textView.append("\nYou clicked on Button")
+        }
+
+        // Button Long Click Listener
+        button.setOnLongClickListener {
+            textView.append("\nYou long clicked on Button")
+            true
+        }
+
+        // Image Touch Listener
+        imageView.setOnTouchListener { _, event ->
+
+            when (event.action) {
+
+                MotionEvent.ACTION_DOWN -> {
+                    textView.append("\nACTION DOWN")
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    textView.append("\nACTION UP")
+                }
+
+                MotionEvent.ACTION_POINTER_DOWN -> {
+                    textView.append("\nACTION POINTER DOWN")
+                }
+            }
+            true
+        }
+
+        // EditText Key Listener for Enter key
+        editText.setOnKeyListener { _, keyCode, event ->
+
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                textView.append("\nEnter key pressed: ${editText.text}")
+                true
+            } else {
+                false
+            }
+        }
+    }
+}
+--------------------------------------------------------------------
+mainactivity.xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editText"
+        android:hint="Type text and press Enter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="#009688"/>
+
+    <Button
+        android:id="@+id/button"
+        android:text="BUTTON"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:text="Event Messages"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+=============================================================================
+
+
+1.Create an android application to pass the data from one activity to another activity in
+the same application using intent.
+
+1️⃣ activity_main.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.and
+roid.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/editTextName"
+        android:hint="Enter your name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnSend"
+        android:text="Send Data"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
+2️⃣ MainActivity.kt
+package com.example.intentexample
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var editTextName: EditText
+    lateinit var btnSend: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        editTextName = findViewById(R.id.editTextName)
+        btnSend = findViewById(R.id.btnSend)
+
+        btnSend.setOnClickListener {
+
+            val name = editTextName.text.toString()
+
+            val intent = Intent(this, SecondActivity::class.java)
+
+            intent.putExtra("username", name)
+
+            startActivity(intent)
+        }
+    }
+}
+
+
+3️⃣ activity_second.xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+
+4️⃣ SecondActivity.kt
+package com.example.intentexample
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.TextView
+
+class SecondActivity : AppCompatActivity() {
+
+    lateinit var textViewResult: TextView
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        textViewResult = findViewById(R.id.textViewResult)
+
+        val name = intent.getStringExtra("username")
+
+        textViewResult.text = "Welcome $name"
+    }
+}
+
+
+5️⃣ AndroidManifest.xml (Important)
+
+Make sure the second activity is declared:
+
+<application ... >
+
+    <activity android:name=".SecondActivity"></activity>
+
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+    </activity>
+
+</application>

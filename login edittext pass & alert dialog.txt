@@ -1,0 +1,142 @@
+Create a login screen with EditText fields for username and password, and a Button to submit. Include validation for empty fields.
+
+package com.example.ganesh
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var username: EditText
+    lateinit var password: EditText
+    lateinit var loginBtn: Button
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        username = findViewById(R.id.etUsername)
+        password = findViewById(R.id.etPassword)
+        loginBtn = findViewById(R.id.btnLogin)
+
+        loginBtn.setOnClickListener {
+
+            val user = username.text.toString()
+            val pass = password.text.toString()
+
+            if (user.isEmpty()) {
+                username.error = "Username required"
+            }
+            else if (pass.isEmpty()) {
+                password.error = "Password required"
+            }
+            else {
+                Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    override fun onBackPressed() {
+
+        val builder = android.app.AlertDialog.Builder(this)
+        builder.setTitle("Exit App")
+        builder.setMessage("Are you sure you want to exit?")
+        builder.setPositiveButton("Yes") { dialog, which ->
+            finish()
+        }
+        builder.setNegativeButton("No", null)
+
+        val alert = builder.create()
+        alert.show()
+    }
+}
+
+activity=======================================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:hint="Enter Username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:text="Login"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+===================================================================
+
+Create an android application to display Alert Dialog on pressing the Back button.
+
+package com.example.ganesh 
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    override fun onBackPressed() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Exit")
+        builder.setMessage("Do you want to exit the application?")
+
+        builder.setPositiveButton("Yes") { dialog, which ->
+            finish()
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+}
+
+activity======================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="Press Back Button"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+==========================================
+
+
+
+

@@ -1,0 +1,258 @@
+1.Create the standard calculator application in android
+
+mainactivity.kt
+
+package com.example.prac1
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+
+class MainActivity : AppCompatActivity() {
+
+    lateinit var display: EditText
+    var num1 = 0.0
+    var num2 = 0.0
+    var op = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        display = findViewById(R.id.display)
+
+        val add = findViewById<Button>(R.id.add)
+        val sub = findViewById<Button>(R.id.subtract)
+        val mul = findViewById<Button>(R.id.multiply)
+        val div = findViewById<Button>(R.id.divide)
+        val equal = findViewById<Button>(R.id.equal)
+        val clear = findViewById<Button>(R.id.clear)
+
+        add.setOnClickListener { setOperator("+") }
+        sub.setOnClickListener { setOperator("-") }
+        mul.setOnClickListener { setOperator("*") }
+        div.setOnClickListener { setOperator("/") }
+
+        clear.setOnClickListener {
+            display.setText("")
+        }
+
+        equal.setOnClickListener {
+
+            num2 = display.text.toString().toDouble()
+
+            var result = 0.0
+
+            when (op) {
+                "+" -> result = num1 + num2
+                "-" -> result = num1 - num2
+                "*" -> result = num1 * num2
+                "/" -> result = num1 / num2
+            }
+
+            display.setText(result.toString())
+        }
+    }
+
+    fun numberClick(view: View) {
+        val button = view as Button
+        display.append(button.text.toString())
+    }
+
+    fun setOperator(operator: String) {
+        num1 = display.text.toString().toDouble()
+        op = operator
+        display.setText("")
+    }
+}
+
+activitymain.xml-----------------
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <!-- Display Screen -->
+    <EditText
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="right"
+        android:textSize="30sp"
+        android:hint="0"
+        android:background="#E0E0E0"
+        android:inputType="none"/>
+
+    <!-- Row 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/del"
+            android:text="DEL"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/clear"
+            android:text="C"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="%"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/add"
+            android:text="+"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+    <!-- Row 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="1"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="2"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="3"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/divide"
+            android:text="/"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+    <!-- Row 3 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="4"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="5"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="6"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/subtract"
+            android:text="-"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+    <!-- Row 4 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="7"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="8"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="9"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/multiply"
+            android:text="X"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+    <!-- Row 5 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:text="."
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:text="0"
+            android:onClick="numberClick"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+
+        <Button
+            android:id="@+id/equal"
+            android:text="="
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="60dp"/>
+    </LinearLayout>
+
+</LinearLayout>
+
+
+
+
+
+

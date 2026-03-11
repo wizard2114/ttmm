@@ -1,0 +1,53 @@
+Design a ListView that displays a list of items. Each item should be a simple TextView with a string from an array of names. The list should be populated dynamically in your Activity.
+xml=======================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/listViewNames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
+
+mainactivity==============================
+
+package com.example.listviewexample
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.ListView
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val listView = findViewById<ListView>(R.id.listViewNames)
+
+        val names = arrayOf(
+            "Rahul",
+            "Amit",
+            "Priya",
+            "Sneha",
+            "Rohit",
+            "Anjali",
+            "Vikas",
+            "Neha"
+        )
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_list_item_1,
+            names
+        )
+
+        listView.adapter = adapter
+    }
+}

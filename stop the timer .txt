@@ -1,0 +1,85 @@
+Design a screen with two buttons: Start and Stop. When the Start button is clicked, start a Timer (display the time in seconds). When the Stop button is clicked, stop the timer.
+
+activity_main.xml=====================
+
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvTimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="30sp"
+        android:layout_marginBottom="30dp"/>
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"/>
+
+    <Button
+        android:id="@+id/btnStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>
+
+MainActivity.kt====================
+
+package com.example.timerapp
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.widget.Button
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var timerText: TextView
+    private lateinit var startButton: Button
+    private lateinit var stopButton: Button
+
+    private var seconds = 0
+    private var running = false
+    private val handler = Handler()
+
+    private val runnable = object : Runnable {
+        override fun run() {
+            if (running) {
+                seconds++
+                timerText.text = seconds.toString()
+                handler.postDelayed(this, 1000)
+            }
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        timerText = findViewById(R.id.tvTimer)
+        startButton = findViewById(R.id.btnStart)
+        stopButton = findViewById(R.id.btnStop)
+
+        startButton.setOnClickListener {
+            if (!running) {
+                running = true
+                handler.post(runnable)
+            }
+        }
+
+        stopButton.setOnClickListener {
+            running = false
+        }
+    }
+}

@@ -1,0 +1,103 @@
+Create an Activity that hosts a Fragment. When a button in the Activity is clicked, pass a string value to the Fragment and display it in a TextView.
+
+activity_main.xml==========================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Data to Fragment"/>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"/>
+
+</LinearLayout>
+=========================
+Fragment Layout create this(fragment_example.xml)========================
+
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message will appear here"
+        android:textSize="20sp"/>
+
+</FrameLayout>
+
+MainActivity.kt============================
+
+package com.example.fragmentexample
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val button = findViewById<Button>(R.id.btnSend)
+
+        button.setOnClickListener {
+
+            val fragment = ExampleFragment()
+
+            val bundle = Bundle()
+            bundle.putString("message", "Hello from Activity!")
+
+            fragment.arguments = bundle
+
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, fragment)
+                .commit()
+        }
+    }
+}
+
+create this ExampleFragment.kt===========================
+
+package com.example.fragmentexample
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+
+class ExampleFragment : Fragment() {
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        val view = inflater.inflate(R.layout.fragment_example, container, false)
+
+        val textView = view.findViewById<TextView>(R.id.tvMessage)
+
+        val message = arguments?.getString("message")
+
+        textView.text = message
+
+        return view
+    }
+}
